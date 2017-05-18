@@ -1,4 +1,5 @@
 const Bluebird = require('bluebird')
+const pangu = require('pangu')
 
 const randomItem = function (array) {
   return array[Math.floor((Math.random() * array.length))]
@@ -34,8 +35,11 @@ class Azogi {
   }
 
   push(text) {
-    let items = text.replace(/[\(\)\*\#　!:^%@$0-9A-Za-z：；「」，？！。、.,'＜＞．／＇＂［］｛｝＼｜＿＋－＝｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ１２３４５６７８９０＠＃＄％＾＆＊"\]\[:;<>?+_\-={}\\~`『』【】”“‘’￥…×（）—·～\/《》]|\s/g, "\n").replace(/\n+/g, "\n").split(/\n/)
-    this.library.splice.apply(this.library, [0, 0, ...new Set(items)])
+    // http://stackoverflow.com/a/21113538
+    let items = pangu.spacing(text).replace(/ +/g, " ").match(/(?:[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]| *[a-zA-z0-9]+ *)+/g)
+    items = items.map((i) => i.trim())
+    items = [...new Set(items)].filter((i) => !!i.replace(/^[0-9A-Za-z ]+$/g, "") && i.length >= 2)
+    this.library.splice.apply(this.library, [0, 0, ...items])
   }
 
   pushOne(text) {
