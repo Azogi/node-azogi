@@ -35,47 +35,40 @@ class Azogi {
 
   push(text) {
     let items = text.replace(/[\(\)\*\#　!:^%@$0-9A-Za-z：；「」，？！。、.,'＜＞．／＇＂［］｛｝＼｜＿＋－＝｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ１２３４５６７８９０＠＃＄％＾＆＊"\]\[:;<>?+_\-={}\\~`『』【】”“‘’￥…×（）—·～\/《》]|\s/g, "\n").replace(/\n+/g, "\n").split(/\n/)
-    items = [...new Set(items)]
-
-    let count = this.library.length
-    for (let i = items.length - 1; i >= 0; i--) {
-      if (!items[i]) continue
-      if (items[i].length < 2) continue
-
-      let position = Math.floor(Math.random() * (count + 1))
-      this.library.splice(position, 0, items[i])
-      count += 1
-    }
+    this.library.splice.apply(this.library, [0, 0, ...new Set(items)])
   }
 
   pushOne(text) {
     if (!text) return
+    this.library.push(text)
+  }
 
-    let position = Math.floor(Math.random() * (this.library.length + 1))
-    this.library.splice(position, 0, text)
+  nextPresent() {
+    let position = Math.floor(Math.random() * this.library.length)
+    return this.library.splice(position, 1)[0]
   }
 
   next() {
-    let result = this.library.shift()
+    let result = this.nextPresent()
     if (result) return result
 
     this.onExhausted()
-    result = this.library.shift()
+    result = this.nextPresent()
     if (result) return result
  
     throw new Error('Running out of materials')
   }
 
   async nextAsync() {
-    let result = this.library.shift()
+    let result = this.nextPresent()
     if (result) return result
 
     await this.onExhaustedAsync()
-    result = this.library.shift()
+    result = this.nextPresent()
     if (result) return result
  
     this.onExhausted()
-    result = this.library.shift()
+    result = this.nextPresent()
     if (result) return result
 
     throw new Error('Running out of materials')

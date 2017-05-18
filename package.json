@@ -1,6 +1,6 @@
 {
   "name": "azogi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "repository": "https://github.com/Azogi/node-azogi.git",
   "author": "Yeechan Lu <wz.bluesnow@gmail.com>",
