@@ -3,10 +3,6 @@ node-azogi
 
 Azogi is the so-called Randomness.
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/C3uaS5cM1DPVgDuEekjGueTv/Azogi/node-azogi'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/C3uaS5cM1DPVgDuEekjGueTv/Azogi/node-azogi.svg' />
-</a>
-
 Example
 -------
 
